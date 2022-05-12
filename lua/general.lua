@@ -1,4 +1,3 @@
--- vim.o.background='dark'
 -- disable vim distribution plugins{{{
 vim.g.loaded_gzip = 1
 vim.g.loaded_tar = 1
@@ -81,17 +80,19 @@ vim.opt.splitright=true       -- Splits open bottom right
 if vim.fn.has("termguicolors") then
     vim.opt.termguicolors=true       -- Enable true color
 end
-vim.opt.number=true             -- Show number
+vim.o.number=true             -- Show number
 vim.opt.showmode=false         -- Don't show mode on bottom
 vim.opt.scrolloff=5         -- Keep at least 2 lines above/below
 vim.opt.fcs='eob: '           -- hide ~ tila
 vim.opt.list=true
 vim.opt.listchars={tab='┆ ',nbsp='+',trail='·',extends='→',precedes='←',eol=''}
 vim.opt.title=true
+vim.opt.titlestring='%t'
 vim.opt.titlelen=95 -- Title length.
 vim.opt.guifont='FiraCode Nerd Font Mono:h13'
 
 vim.opt.showmatch=true           -- Jump to matching bracket
 vim.opt.matchtime=1         -- Tenths of a second to show the matching paren
 vim.opt.signcolumn='yes:1'
+vim.o.laststatus=3      -- only show one staus line
 -- }}}

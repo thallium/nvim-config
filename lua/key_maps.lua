@@ -1,22 +1,22 @@
 local M = {}
 local noremap = function(mode, lhs, rhs, ...)
-    local opts = {noremap=true}
-    if arg then
-        for k, v in pairs(arg[1]) do
-            opts[k]=v
-        end
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-end
-local map = function(mode, lhs, rhs, ...)
     local opts = {}
     if arg then
         for k, v in pairs(arg[1]) do
             opts[k]=v
         end
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
 end
+-- local map = function(mode, lhs, rhs, ...)
+--     local opts = {}
+--     if arg then
+--         for k, v in pairs(arg[1]) do
+--             opts[k]=v
+--         end
+--     end
+--     vim.keymap.set(mode, lhs, rhs, opts)
+-- end
 
 -- Remove spaces at the end of lines
 noremap('n', '<Space>cw', '<cmd>keeppatterns %s/\\s\\+$//e<CR>', {silent=true})
@@ -71,47 +71,45 @@ local function layout_bottom()
         layout_strategy = 'bottom_pane',
     }]]
 end
-noremap('n', '<Leader>ff', '<cmd>lua require"telescope.builtin".find_files()<cr>');
-noremap('n', '<Leader>ft', '<cmd>lua require"my_telescope".find_acm_template()<CR>');
-noremap('n', '<Leader>fd', '<cmd>lua require"my_telescope".find_dot_files()<CR>');
-noremap('n', '<C-p>', '<cmd>lua require"telescope.builtin".find_files()<CR>');
-noremap('n', 'gd', '<cmd>lua require"telescope.builtin".lsp_definitions()<CR>');
-noremap('n', 'gi', '<cmd>lua require"telescope.builtin".lsp_implementations()<CR>');
-noremap('n', 'gr', '<cmd>lua require"telescope.builtin".lsp_references()<CR>');
-noremap('n', '<Leader>ca', '<cmd>lua require"my_telescope".lsp_code_actions()<CR>');
-noremap('n', '<Leader>s', '<cmd>lua require"telescope.builtin".lsp_document_symbols()<CR>');
-noremap('n', '<Leader>e', '<cmd>lua require"my_telescope".diagnostics()<CR>');
+noremap('n', '<Leader>ff', require"telescope.builtin".find_files)
+noremap('n', '<Leader>ft', require"my_telescope".find_acm_template)
+noremap('n', '<Leader>fd', require"my_telescope".find_dot_files)
+noremap('n', '<C-p>', require"telescope.builtin".find_files)
+noremap('n', 'gd', require"telescope.builtin".lsp_definitions)
+noremap('n', 'gi', require"telescope.builtin".lsp_implementations)
+noremap('n', 'gr', require"telescope.builtin".lsp_references)
+noremap('n', '<Leader>ca', require"my_telescope".lsp_code_actions)
+noremap('n', '<Leader>s', require"telescope.builtin".lsp_document_symbols)
+noremap('n', '<Leader>E', require"my_telescope".diagnostics)
 
 -- termtogle
-noremap('n', '<A-p>', '<cmd>ToggleTerm<cr>')
+noremap({'n', 't'}, '<A-p>', '<cmd>ToggleTerm<cr>')
 noremap('i', '<A-p>', '<esc><cmd>ToggleTerm<cr>')
-noremap('t', '<A-p>', '<cmd>ToggleTerm<cr>')
 
 -- compile/run/test
-noremap('n', '<F4>', '<cmd>lua require"my_functions".compile(false)<cr>')
-noremap('n', '<Leader>r', '<cmd>lua require"my_functions".compileAndRun(false)<cr>')
-noremap('n', '<Leader>t', '<cmd>lua require"my_functions".compileAndRun(true)<cr>')
+noremap('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
+noremap('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
 
 
 -- Sandwich
 -- add
-map('n', '<C-s>a', '<Plug>(operator-sandwich-add)', {silent=true})
-map('x', '<C-s>a', '<Plug>(operator-sandwich-add)', {silent=true})
-map('o', '<C-s>a', '<Plug>(operator-sandwich-g@)', {silent=true})
+noremap('n', '<C-s>a', '<Plug>(operator-sandwich-add)', {silent=true})
+noremap('x', '<C-s>a', '<Plug>(operator-sandwich-add)', {silent=true})
+noremap('o', '<C-s>a', '<Plug>(operator-sandwich-g@)', {silent=true})
 
 -- delete
-map('x', '<C-s>d', '<Plug>(operator-sandwich-delete)', {silent=true})
-map('n', '<C-s>d', '<Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)', {silent=true})
-map('n', '<C-s>db', '<Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)', {silent=true})
+noremap('x', '<C-s>d', '<Plug>(operator-sandwich-delete)', {silent=true})
+noremap('n', '<C-s>d', '<Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)', {silent=true})
+noremap('n', '<C-s>db', '<Plug>(operator-sandwich-delete)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)', {silent=true})
 
 -- replace
-map('x', '<c-s>r', '<Plug>(operator-sandwich-replace)', {silent=true})
-map('n', '<C-s>r', '<Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)', {silent=true})
-map('n', '<C-s>rb', '<Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)', {silent=true})
+noremap('x', '<c-s>r', '<Plug>(operator-sandwich-replace)', {silent=true})
+noremap('n', '<C-s>r', '<Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-query-a)', {silent=true})
+noremap('n', '<C-s>rb', '<Plug>(operator-sandwich-replace)<Plug>(operator-sandwich-release-count)<Plug>(textobj-sandwich-auto-a)', {silent=true})
 
 -- dap
-map('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
-map('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
-map('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
-map('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
-map('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")
+noremap('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
+noremap('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
+noremap('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
+noremap('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
+noremap('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")

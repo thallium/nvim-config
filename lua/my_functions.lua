@@ -36,7 +36,7 @@ M.compileAndRun = function (toTest)
             termexec(fmt('cmd="ccomp %s && ./%s"', fnWOEx, fnWOEx), 1)
         end
     elseif ft == 'python' then
-        termexec(fmt('cmd="python %s" dir=%s', fnWEx, dir), 1)
+        termexec(fmt('cmd="python3 %s" dir=%s', fnWEx, dir), 1)
     end
     require'toggleterm.terminal'.get(1):is_open() -- move focus to terminal
 end

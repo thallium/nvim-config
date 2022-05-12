@@ -13,22 +13,34 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   -- Apperance {{{
   use {
-    'andersevenrud/nordic.nvim',
-    cond = function () return Get_color_mode() == 'dark' end,
+    'thallium/nordic.nvim',
+    -- '~/programming/nordic.nvim',
+    branch = 'thallium',
     config = function()
-        require('nordic').colorscheme({
-            underline_option = 'underline',
-            italic = false,
-            -- Italic styled comments
-            italic_comments = false,
-            -- Minimal mode: different choice of colors for Tabs and StatusLine
-            minimal_mode = false
-        })
+        vim.g.nord_underline_option = 'underline'
+        vim.g.nord_italic = false
+        vim.g.nord_italic_comments = false
+        vim.g.nord_minimal_mode = false
+        vim.g.nord_alternate_backgrounds = false
+        if Get_color_mode() == 'dark' then
+          vim.o.background='light'
+          vim.cmd[[colorscheme nordic]]
+        end
+    end
+  }
+  use {
+    'Th3Whit3Wolf/one-nvim',
+    -- cond = function () return Get_color_mode() == 'light' end,
+    config = function ()
+      if Get_color_mode() == 'light' then
+        vim.o.background='light'
+        vim.cmd[[colorscheme one-nvim]]
+      end
     end
   }
   use {
     'marko-cerovac/material.nvim',
-    cond = function () return Get_color_mode() == 'light' end,
+    disable = 1,
     setup = function () vim.g.material_style = "lighter" end,
     config = function ()
       require'material'.setup({
@@ -128,6 +140,7 @@ return require('packer').startup(function(use)
               yaml = { names=false },
               javascript = { names=false },
               conf = { names=false },
+              kitty = { hsl_fn = true, names = false }
           })
       end
 
@@ -161,7 +174,12 @@ return require('packer').startup(function(use)
   use { 'bfrg/vim-cpp-modern', ft = { 'c','cpp' } }
   use { 'arzg/vim-sh', ft= { 'sh','zsh' } }
   use { 'fatih/vim-go', ft = {'go','gomod'} }
-  use { 'lervag/vimtex', ft = 'tex'}
+  use {
+    'lervag/vimtex',
+    setup = function ()
+      vim.g.vimtex_view_method='skim'
+    end,
+  }
   use {
     'iamcco/markdown-preview.nvim',
     ft={'markdown', 'md'},
@@ -203,10 +221,13 @@ return require('packer').startup(function(use)
 
   use {
       'nvim-treesitter/nvim-treesitter',
+      disable = true,
       run = ':TSUpdate',
       config = function() require'treesitter' end
   }
-  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+  }
   use {
     'simrat39/symbols-outline.nvim',
     config = function ()

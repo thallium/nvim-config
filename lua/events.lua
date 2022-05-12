@@ -1,9 +1,9 @@
-vim.cmd([[
-    augroup common
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=250}
-    augroup END
-]])
+vim.api.nvim_create_autocmd("TextYankPost", {
+    pattern = "*",
+    callback = function ()
+        vim.highlight.on_yank({higroup="IncSearch", timeout=250})
+    end
+})
 vim.cmd([[
   augroup packer_user_config
     autocmd!
