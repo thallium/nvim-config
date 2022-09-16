@@ -51,7 +51,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-local servers = { "vimls", "gopls", "bashls", "pyright", "rust_analyzer" }
+local servers = require'custom'.lsp_servers
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup{
