@@ -166,6 +166,7 @@ return require('packer').startup(function(use)
   use { 'fatih/vim-go', ft = {'go','gomod'} }
   use {
     'lervag/vimtex',
+    ft = {'tex'},
     setup = function ()
       vim.g.vimtex_view_method='skim'
     end,
@@ -176,10 +177,6 @@ return require('packer').startup(function(use)
     run = "cd app && yarn install",
     cmd = 'MarkdownPreview',
     setup = function () vim.g.mkdp_auto_close = false end
-  }
-  use {
-    'mfussenegger/nvim-jdtls',
-    disable = true,
   }
   --}}}
 
@@ -225,6 +222,7 @@ return require('packer').startup(function(use)
   }
   use {
     'simrat39/symbols-outline.nvim',
+    cmd = {'SymbolsOutline'},
     config = function ()
       require("symbols-outline").setup()
     end
