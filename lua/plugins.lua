@@ -11,6 +11,7 @@ end
 
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
+  use 'lewis6991/impatient.nvim' -- optimize loading time using cache
   -- Apperance {{{
   use {
     'folke/tokyonight.nvim',
