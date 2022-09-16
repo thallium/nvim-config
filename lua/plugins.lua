@@ -70,9 +70,6 @@ return require('packer').startup(function(use)
     'mfussenegger/nvim-dap',
     config = function() require'dap-config' end
   }
-  use {
-    'windwp/nvim-spectre'
-  }
   --}}}
   -- Enhance{{{
   use {
