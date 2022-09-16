@@ -35,10 +35,6 @@ return require('packer').startup(function(use)
         vim.g.nord_italic_comments = false
         vim.g.nord_minimal_mode = false
         vim.g.nord_alternate_backgrounds = false
-        -- if Get_color_mode() == 'dark' then
-        --   vim.o.background='light'
-        --   vim.cmd[[colorscheme nordic]]
-        -- end
     end
   }
   use {
@@ -139,6 +135,18 @@ return require('packer').startup(function(use)
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function () require'lualine_config' end
   }
+  use {
+    'windwp/nvim-spectre',
+    requires = {
+      'nvim-lua/plenary.nvim',
+    },
+  }
+  use {
+    'ThePrimeagen/harpoon',
+    requires = {
+      'nvim-lua/plenary.nvim',
+    },
+  }
   --}}}
 
     -- nvim-cmp{{{
@@ -171,7 +179,12 @@ return require('packer').startup(function(use)
     run = "cd app && yarn install",
     cmd = 'MarkdownPreview',
     setup = function () vim.g.mkdp_auto_close = false end
-  }--}}}
+  }
+  use {
+    'mfussenegger/nvim-jdtls',
+    disable = true,
+  }
+  --}}}
 
   -- LSP/treesitter {{{
   use {
@@ -217,6 +230,23 @@ return require('packer').startup(function(use)
     'simrat39/symbols-outline.nvim',
     config = function ()
       require("symbols-outline").setup()
+    end
+  }
+  --}}}
+  -- Project {{{
+  use {
+    'windwp/nvim-projectconfig',
+    config = function()
+      require('nvim-projectconfig').setup({
+        project_config = {
+          {
+            path = "/Users/gengchentuo/openj9%-openjdk%-jdk19/.*",
+            config = function()
+              vim.opt.expandtab=false       -- expand tabs to spaces
+            end
+          }
+        }
+      })
     end
   }
   --}}}

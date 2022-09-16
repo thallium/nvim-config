@@ -66,12 +66,23 @@ noremap('n', '<Leader>s', require"my_telescope".lsp_or_treesitter_symbol)
 noremap('n', '<Leader>E', require"my_telescope".diagnostics)
 
 -- termtogle
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+    cmd = "lazygit",
+    hidden = true,
+    direction = 'float',
+    float_opts = {
+        border = 'double'
+    }
+})
 noremap({'n', 't'}, '<A-p>', '<cmd>ToggleTerm<cr>')
 noremap('i', '<A-p>', '<esc><cmd>ToggleTerm<cr>')
+noremap('n', '<Leader>g', function() lazygit:toggle() end)
 
 -- compile/run/test
 noremap('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
 noremap('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
+noremap('n', '<Leader>p', function() require"my_functions".get_highlight_group() end)
 
 -- dap
 noremap('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
@@ -79,5 +90,12 @@ noremap('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
 noremap('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
 noremap('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
 noremap('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")
+
+-- Spectre
+noremap('n', '<leader>S', require('spectre').open)
+noremap('n', '<leader>fw', function() require('spectre').open_visual({select_word=true}) end)
+
+-- Harpoon
+noremap('n', '<Leader>fm', require("harpoon.ui").toggle_quick_menu)
 
 return M

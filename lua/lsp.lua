@@ -20,8 +20,8 @@ local custom_lsp_attach = function(client, bufnr)
     -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
     -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
     -- buf_set_keymap('n', 'gi',  '<cmd>lua vim.lsp.buf.implementation()<CR>')
+
     buf_set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action)
-    -- buf_set_keymap('n', '<space>s', vim.lsp.buf.document_symbol)
     buf_set_keymap('n', 'K', vim.lsp.buf.hover)
     buf_set_keymap('n', '<Leader>cn', vim.lsp.buf.rename)
     buf_set_keymap('n', '[e', vim.diagnostic.goto_prev)
@@ -51,7 +51,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-local servers = { "clangd", "vimls", "gopls", "bashls", "pyright", "texlab", "rust_analyzer"}
+local servers = { "vimls", "gopls", "bashls", "pyright", "rust_analyzer" }
+
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup{
         capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
@@ -59,36 +60,53 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-local sumneko_root_path = "/Users/tuogengchen/github/lua-language-server"
-local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
+-- require'lspconfig'.jdtls.setup{
+--     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+--     on_attach = custom_lsp_attach,
+--     -- root_dir = vim.fn.getcwd()
+--     -- {
+--     --     {
+--     --       '.project',
+--     --       'build.xml', -- Ant
+--     --       'pom.xml', -- Maven
+--     --       'settings.gradle', -- Gradle
+--     --       'settings.gradle.kts', -- Gradle
+--     --     },
+--     --     -- Multi-module projects
+--     --     { 'build.gradle', 'build.gradle.kts' },
+--     --   } or 
+-- }
 
-require'lspconfig'.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-    on_attach = custom_lsp_attach,
-    capabilities = capabilities,
-}
+-- local sumneko_root_path = "/Users/tuogengchen/github/lua-language-server"
+-- local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
+-- 
+-- require'lspconfig'.sumneko_lua.setup {
+--   cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+--   settings = {
+--     Lua = {
+--       runtime = {
+--         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--         version = 'LuaJIT',
+--         -- Setup your lua path
+--         path = vim.split(package.path, ';'),
+--       },
+--       diagnostics = {
+--         -- Get the language server to recognize the `vim` global
+--         globals = {'vim'},
+--       },
+--       workspace = {
+--         -- Make the server aware of Neovim runtime files
+--         library = {
+--           [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+--           [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+--         },
+--       },
+--       -- Do not send telemetry data containing a randomized but unique identifier
+--       telemetry = {
+--         enable = false,
+--       },
+--     },
+--   },
+--     on_attach = custom_lsp_attach,
+--     capabilities = capabilities,
+-- }
