@@ -3,7 +3,7 @@
 -- Only if your version of Neovim doesn't have https://github.com/neovim/neovim/pull/12632 merged
 -- vim._update_package_paths()
 --
-function Get_color_mode() -- 1: dark mode, 0: light mode
+function Get_color_mode()
   local res = vim.fn.system([[defaults read -g AppleInterfaceStyle 2>/dev/null]])
   if res == 'Dark\n' then return 'dark' end
   return 'light'
@@ -12,6 +12,19 @@ end
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   -- Apperance {{{
+  use {
+    'folke/tokyonight.nvim',
+    config = function()
+        vim.g.tokyonight_style = "storm"
+        if Get_color_mode() == 'dark' then
+          vim.o.background='dark'
+          vim.cmd[[colorscheme tokyonight]]
+        else
+          vim.o.background='light'
+          vim.cmd[[colorscheme tokyonight]]
+        end
+    end
+  }
   use {
     'thallium/nordic.nvim',
     -- '~/programming/nordic.nvim',
@@ -22,44 +35,14 @@ return require('packer').startup(function(use)
         vim.g.nord_italic_comments = false
         vim.g.nord_minimal_mode = false
         vim.g.nord_alternate_backgrounds = false
-        if Get_color_mode() == 'dark' then
-          vim.o.background='light'
-          vim.cmd[[colorscheme nordic]]
-        end
+        -- if Get_color_mode() == 'dark' then
+        --   vim.o.background='light'
+        --   vim.cmd[[colorscheme nordic]]
+        -- end
     end
   }
   use {
     'Th3Whit3Wolf/one-nvim',
-    -- cond = function () return Get_color_mode() == 'light' end,
-    config = function ()
-      if Get_color_mode() == 'light' then
-        vim.o.background='light'
-        vim.cmd[[colorscheme one-nvim]]
-      end
-    end
-  }
-  use {
-    'marko-cerovac/material.nvim',
-    disable = 1,
-    setup = function () vim.g.material_style = "lighter" end,
-    config = function ()
-      require'material'.setup({
-        contrast = {
-          sidebars = true,
-          floating_windows = true,
-        },
-        contrast_filetypes = {
-          "packer",
-          "qf",
-          "nnn"
-        },
-        disable = {
-          borders = true,
-          eob_lines = true
-        }
-      })
-      vim.cmd 'colorscheme material'
-    end
   }
   use {
     'kyazdani42/nvim-web-devicons',
@@ -80,10 +63,6 @@ return require('packer').startup(function(use)
     end
   }
   use {
-    'jreybert/vimagit',
-    cmd = 'Magit'
-  }
-  use {
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -94,6 +73,9 @@ return require('packer').startup(function(use)
   use {
     'mfussenegger/nvim-dap',
     config = function() require'dap-config' end
+  }
+  use {
+    'windwp/nvim-spectre'
   }
   --}}}
   -- Enhance{{{
@@ -118,16 +100,19 @@ return require('packer').startup(function(use)
 
   use {
       "akinsho/toggleterm.nvim",
+      tag = 'v1.*',
       config = function () require'toggleterm_config' end
   }
 
   use { 'tyru/caw.vim' }
   use {
-    'machakann/vim-sandwich',
-    setup = function ()
-      vim.g.sandwich_no_default_key_mappings = true
-      vim.g.operator_sandwich_no_default_key_mappings = true
-    end,
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
   }
   use {
       'SirVer/ultisnips',
@@ -221,23 +206,18 @@ return require('packer').startup(function(use)
 
   use {
       'nvim-treesitter/nvim-treesitter',
-      disable = true,
       run = ':TSUpdate',
       config = function() require'treesitter' end
   }
   use {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    'nvim-treesitter/playground',
   }
   use {
     'simrat39/symbols-outline.nvim',
     config = function ()
-      vim.g.symbols_outline = {
-        width = 40
-      }
+      require("symbols-outline").setup()
     end
   }
   --}}}
-
 end)
-
--- vim:shiftwidth=2:ts=2

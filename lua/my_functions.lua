@@ -1,10 +1,11 @@
 local M = {}
 local fmt=string.format
 local tt=require'toggleterm'
-local termexec=tt.exec_command
+local function termexec(cmd, cnt, go_back, dir, open)
+    tt.exec(cmd, cnt, nil, dir, nil, go_back, open)
+end
 function M.compile(toDebug)
     vim.cmd('write')
-    -- vim.call('TerminalSend', 'cd ' .. vim.fn.expand('%:p:h') .. '\r')
     local ft = vim.o.filetype
     local fnWEx = vim.fn.expand('%') -- filename with extension
     local fnWOEx = vim.fn.expand('%<')
@@ -28,17 +29,21 @@ M.compileAndRun = function (toTest)
     local ft = vim.o.filetype
     local fnWEx = vim.fn.expand('%') -- filename with extension
     local fnWOEx = vim.fn.expand('%<') -- filename without extension
-    termexec(fmt('cmd="cd %s"', dir))
+    termexec("cd " .. dir, 1)
     if ft == 'cpp' or ft == 'c' or ft == 'cc' then
         if toTest then
-            termexec(fmt('cmd="ccomp %s && cp_test %s"', fnWOEx, fnWOEx), 1)
+            termexec(fmt('ccomp %s && cp_test %s', fnWOEx, fnWOEx), 1)
         else
-            termexec(fmt('cmd="ccomp %s && ./%s"', fnWOEx, fnWOEx), 1)
+            termexec(fmt('ccomp %s && ./%s', fnWOEx, fnWOEx), 1)
         end
     elseif ft == 'python' then
-        termexec(fmt('cmd="python3 %s" dir=%s', fnWEx, dir), 1)
+        termexec(fmt('python3 %s', fnWEx), 1)
+    elseif ft == 'rust' then
+        termexec('cargo run')
     end
-    require'toggleterm.terminal'.get(1):is_open() -- move focus to terminal
+    local term = require'toggleterm.terminal'.get(1)
+    term:close()
+    term:open()
 end
 
 return M

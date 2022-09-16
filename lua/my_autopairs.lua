@@ -1,4 +1,3 @@
-local map = vim.api.nvim_set_keymap
 local Rule = require('nvim-autopairs.rule')
 local npairs = require('nvim-autopairs')
 local cond = require('nvim-autopairs.conds')

@@ -1,8 +1,5 @@
--- local formatter = {
---     lua=true,
--- }
-
 local nvim_lsp = require('lspconfig')
+local noremap = require('key_maps').noremap
 
 -- update diagnostics in insert mode
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -12,33 +9,27 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 
--- Mapping options
-local opts = { noremap=true, silent=true }
-
 local custom_lsp_attach = function(client, bufnr)
     -- See `:help nvim_buf_set_keymap()` for more information
 
-    local function buf_set_keymap(mode, lhs, rhs) vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts) end
+    local function buf_set_keymap(mode, lhs, rhs)
+        noremap(mode, lhs, rhs, { buffer = bufnr, slient = true })
+    end
 
     -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
     -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
     -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
     -- buf_set_keymap('n', 'gi',  '<cmd>lua vim.lsp.buf.implementation()<CR>')
-    -- buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-    -- buf_set_keymap('n', '<space>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-    buf_set_keymap('n', '<Leader>cn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-    buf_set_keymap('n', '[e', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
-    buf_set_keymap('n', ']e', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-    buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
-    buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>')
-    -- if (formatter)
-    buf_set_keymap('n', '<Leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-
-
-    -- Use LSP as the handler for omnifunc.
-    -- vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    buf_set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action)
+    -- buf_set_keymap('n', '<space>s', vim.lsp.buf.document_symbol)
+    buf_set_keymap('n', 'K', vim.lsp.buf.hover)
+    buf_set_keymap('n', '<Leader>cn', vim.lsp.buf.rename)
+    buf_set_keymap('n', '[e', vim.diagnostic.goto_prev)
+    buf_set_keymap('n', ']e', vim.diagnostic.goto_next)
+    buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
+    buf_set_keymap('n', '<Leader>e', vim.diagnostic.open_float)
+    buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
+    buf_set_keymap('n', '<Leader>F', vim.lsp.buf.formatting)
 
     -- For plugins with an `on_attach` callback, call them here. For example:
     -- require'completion'.on_attach()
@@ -60,7 +51,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   }
 }
 
-local servers = { "clangd", "vimls", "gopls", "bashls", "pyright", "texlab"}
+local servers = { "clangd", "vimls", "gopls", "bashls", "pyright", "texlab", "rust_analyzer"}
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup{
         capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),

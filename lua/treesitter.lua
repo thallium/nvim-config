@@ -1,8 +1,8 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"lua", "c", "cpp", "rust", "bash", "css", "latex", "html", "toml", "yaml", "markdown"},
   highlight = {
-    enable = false,              -- false will disable the whole extension
-    disable = { "javascript", "cpp" }
+    enable = true,              -- false will disable the whole extension
+    disable = { "javascript", "cpp", "lua" }
   },
   textobjects = {
     select = {
