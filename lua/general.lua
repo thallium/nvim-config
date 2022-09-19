@@ -30,7 +30,7 @@ vim.opt.fileencodings={'ucs-bom','utf-8','default','latin1','chinese'}
 -- vim.opt.path+=/home/thallium/github/acm-algorithm-template/**,**                 " Directories to search when using gf and friends
 vim.opt.virtualedit='block'        -- Position cursor anywhere in visual block
 vim.opt.synmaxcol=2500           -- Don't syntax highlight long lines
--- vim.opt.autochdir=true
+vim.opt.autochdir=true
 vim.opt.updatetime=100
 vim.opt.shortmess:append('c')
 vim.opt.cmdheight=2
