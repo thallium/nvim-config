@@ -1,2 +1,2 @@
-vim.opt.spell=true
-vim.opt.spelllang="en_us,cjk"
+vim.opt_local.spell=true
+vim.opt_local.spelllang="en_us,cjk"
