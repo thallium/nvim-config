@@ -1,9 +1,11 @@
 local M = {}
-local fmt=string.format
-local tt=require'toggleterm'
-local function termexec(cmd, cnt, go_back, dir, open)
-    tt.exec(cmd, cnt, nil, dir, nil, go_back, open)
+local fmt = string.format
+local tt = require'toggleterm'
+
+local function termexec(cmd, num, go_back, open)
+    tt.exec(cmd, num, nil, nil, nil, go_back, open)
 end
+
 function M.compile(toDebug)
     vim.cmd('write')
     local ft = vim.o.filetype
@@ -32,18 +34,15 @@ M.compileAndRun = function (toTest)
     termexec("cd " .. dir, 1)
     if ft == 'cpp' or ft == 'c' or ft == 'cc' then
         if toTest then
-            termexec(fmt('ccomp %s && cp_test %s', fnWOEx, fnWOEx), 1)
+            termexec(fmt('ccomp %s && cp_test %s', fnWOEx, fnWOEx), 1, true)
         else
-            termexec(fmt('ccomp %s && ./%s', fnWOEx, fnWOEx), 1)
+            termexec(fmt('ccomp %s && ./%s', fnWOEx, fnWOEx), 1, false)
         end
     elseif ft == 'python' then
         termexec(fmt('python3 %s', fnWEx), 1)
     elseif ft == 'rust' then
         termexec('cargo run')
     end
-    local term = require'toggleterm.terminal'.get(1)
-    term:close()
-    term:open()
 end
 
 return M

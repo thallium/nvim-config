@@ -21,7 +21,7 @@ require'lualine'.setup {
                         'branch', 'diff',
                         { 'diagnostics', sources={ 'nvim_diagnostic', 'coc' } }
                     },
-        lualine_c = {'filename'},
+        lualine_c = {'filename', 'aerial'},
         lualine_x = {'encoding', 'fileformat', 'filetype'},
         lualine_y = {},
         lualine_z = {line_number}
@@ -35,5 +35,5 @@ require'lualine'.setup {
         lualine_z = {}
     },
     tabline = {},
-    extensions = { 'symbols-outline' }
+    extensions = { 'aerial' }
 }

@@ -14,10 +14,11 @@ require('telescope').setup {
                 override_generic_sorter = false,
                 override_file_sorter = true,
             }
-        }
+        },
     }
 }
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('aerial')
 
 local M={}
 
@@ -46,17 +47,6 @@ end
 
 function M.diagnostics()
     require"telescope.builtin".diagnostics(layout_bottom)
-end
-
-function M.lsp_or_treesitter_symbol()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local clients = vim.lsp.buf_get_clients(bufnr)
-    if #clients == 0 then
-        -- No lsp client attached, use treesitter picker
-        require"telescope.builtin".treesitter()
-    else
-        require"telescope.builtin".lsp_document_symbols()
-    end
 end
 
 return M

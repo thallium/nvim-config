@@ -94,7 +94,7 @@ return require('packer').startup(function(use)
 
   use {
       "akinsho/toggleterm.nvim",
-      tag = 'v1.*',
+      tag = 'v2.*',
       config = function () require'toggleterm_config' end
   }
 
@@ -222,11 +222,19 @@ return require('packer').startup(function(use)
     'nvim-treesitter/playground',
   }
   use {
-    'simrat39/symbols-outline.nvim',
-    cmd = {'SymbolsOutline'},
-    config = function ()
-      require("symbols-outline").setup()
-    end
+    'stevearc/aerial.nvim',
+    config = function() require('aerial').setup({
+        on_attach = function(bufnr)
+            -- Toggle the aerial window with <leader>a
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+            -- Jump forwards/backwards with '{' and '}'
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<cmd>AerialPrev<CR>', {})
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<cmd>AerialNext<CR>', {})
+            -- Jump up the tree with '[[' or ']]'
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
+        end
+    }) end
   }
   --}}}
   -- Project {{{
