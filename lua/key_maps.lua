@@ -1,69 +1,62 @@
 local M = {}
-function M.noremap(mode, lhs, rhs, ...)
-    local opts = {}
-    if arg then
-        for k, v in pairs(arg[1]) do
-            opts[k]=v
-        end
-    end
-    vim.keymap.set(mode, lhs, rhs, opts)
-end
 
-local noremap = M.noremap
+M.map = vim.keymap.set
+
+local map = M.map
 
 -- Remove spaces at the end of lines
-noremap('n', '<Space>cw', '<cmd>keeppatterns %s/\\s\\+$//e<CR>', {silent=true})
+map('n', '<Space>cw', '<cmd>keeppatterns %s/\\s\\+$//e<CR>', {silent=true})
 
 -- alt-; to exit insert mode in terminal
-noremap('t', '<A-;>', '<C-\\><C-n>')
+map('t', '<A-;>', '<C-\\><C-n>')
 
 -- switch window
-noremap({'t', 'i'}, '<A-h>', '<C-\\><C-N><C-w>h')
-noremap({'t', 'i'}, '<A-j>', '<C-\\><C-N><C-w>j')
-noremap({'t', 'i'}, '<A-k>', '<C-\\><C-N><C-w>k')
-noremap({'t', 'i'}, '<A-l>', '<C-\\><C-N><C-w>l')
-noremap('n', '<A-h>', '<C-w>h')
-noremap('n', '<A-j>', '<C-w>j')
-noremap('n', '<A-k>', '<C-w>k')
-noremap('n', '<A-l>', '<C-w>l')
+map({'t', 'i'}, '<A-h>', '<C-\\><C-N><C-w>h')
+map({'t', 'i'}, '<A-j>', '<C-\\><C-N><C-w>j')
+map({'t', 'i'}, '<A-k>', '<C-\\><C-N><C-w>k')
+map({'t', 'i'}, '<A-l>', '<C-\\><C-N><C-w>l')
+map('n', '<A-h>', '<C-w>h')
+map('n', '<A-j>', '<C-w>j')
+map('n', '<A-k>', '<C-w>k')
+map('n', '<A-l>', '<C-w>l')
 
 -- nnn
-noremap('n', '<Leader>n', '<cmd>NnnPicker<CR>')
+map('n', '<Leader>n', '<cmd>NnnPicker<CR>')
 
 --Hop
-noremap('', 's', '<cmd>HopChar2<CR>')
+map('', 's', '<cmd>HopChar2<CR>')
 
 -- barbar
-noremap('n', '<Leader>bc', '<cmd>BufferCloseAllButCurrent<CR>', {silent=true})
-noremap('n', '<A-w>', '<cmd>BufferClose<CR>', {silent=true})
-noremap('i', '<A-w>', '<cmd>BufferClose<CR>', {silent=true})
-noremap('n', '<A-q>', '<cmd>BufferClose!<CR>', {silent=true})
-noremap('n', '<A-,>', '<cmd>BufferPrevious<CR>', {silent=true})
-noremap('n', '<A-.>', '<cmd>BufferNext<CR>', {silent=true})
-noremap('i', '<A-,>', '<cmd>BufferPrevious<CR>', {silent=true})
-noremap('i', '<A-.>', '<cmd>BufferNext<CR>', {silent=true})
+map('n', '<Leader>bc', '<cmd>BufferCloseAllButCurrent<CR>', {silent=true})
+map('n', '<A-w>', '<cmd>BufferClose<CR>', {silent=true})
+map('i', '<A-w>', '<cmd>BufferClose<CR>', {silent=true})
+map('n', '<A-q>', '<cmd>BufferClose!<CR>', {silent=true})
+map('n', '<A-,>', '<cmd>BufferPrevious<CR>', {silent=true})
+map('n', '<A-.>', '<cmd>BufferNext<CR>', {silent=true})
+map('i', '<A-,>', '<cmd>BufferPrevious<CR>', {silent=true})
+map('i', '<A-.>', '<cmd>BufferNext<CR>', {silent=true})
 
 -- settings for resize splitted window
-noremap('n', '<C-w>[', '<cmd>vertical resize -3<CR>')
-noremap('n', '<C-w>]', '<cmd>vertical resize +3<CR>')
+map('n', '<C-w>[', '<cmd>vertical resize -3<CR>')
+map('n', '<C-w>]', '<cmd>vertical resize +3<CR>')
 
 -- Ctrl-a to copy all
-noremap('n',  '<C-A>', '<cmd>%y+<CR>')
+map('n',  '<C-A>', '<cmd>%y+<CR>')
 
 -- correct spelling on the fly
-noremap('i', '<C-l>', '<c-g>u<Esc>[s1z=`]a<c-g>u')
+map('i', '<C-l>', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 
 -- telescope
-noremap('n', '<Leader>ff', require"telescope.builtin".find_files)
-noremap('n', '<Leader>ft', require"my_telescope".find_acm_template)
-noremap('n', '<Leader>fd', require"my_telescope".find_dot_files)
-noremap('n', '<C-p>', require"telescope.builtin".find_files)
-noremap('n', 'gd', require"telescope.builtin".lsp_definitions)
-noremap('n', 'gi', require"telescope.builtin".lsp_implementations)
-noremap('n', 'gr', require"telescope.builtin".lsp_references)
-noremap('n', 'gd', require"telescope.builtin".buffers)
-noremap('n', '<Leader>s', require"my_telescope".lsp_or_treesitter_symbol)
-noremap('n', '<Leader>E', require"my_telescope".diagnostics)
+map('n', '<Leader>ff', require"telescope.builtin".find_files)
+map('n', '<Leader>ft', require"my_telescope".find_acm_template)
+map('n', '<Leader>fd', require"my_telescope".find_dot_files)
+map('n', '<C-p>', require"telescope.builtin".find_files)
+map('n', 'gd', require"telescope.builtin".lsp_definitions)
+map('n', 'gi', require"telescope.builtin".lsp_implementations)
+map('n', 'gr', require"telescope.builtin".lsp_references)
+map('n', 'gd', require"telescope.builtin".buffers)
+map('n', '<Leader>s', require'telescope'.extensions.aerial.aerial)
+map('n', '<Leader>E', require"my_telescope".diagnostics)
 
 -- termtogle
 local Terminal  = require('toggleterm.terminal').Terminal
@@ -75,27 +68,28 @@ local lazygit = Terminal:new({
         border = 'double'
     }
 })
-noremap({'n', 't'}, '<A-p>', '<cmd>ToggleTerm<cr>')
-noremap('i', '<A-p>', '<esc><cmd>ToggleTerm<cr>')
-noremap('n', '<Leader>g', function() lazygit:toggle() end)
+map({'n', 't'}, '<A-p>', '<cmd>ToggleTerm<cr>')
+map('i', '<A-p>', '<esc><cmd>ToggleTerm<cr>')
+map('n', '<Leader>g', function() lazygit:toggle() end)
 
 -- compile/run/test
-noremap('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
-noremap('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
-noremap('n', '<Leader>p', function() require"my_functions".get_highlight_group() end)
+map('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
+map('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
+map('n', '<Leader>p', function() require"my_functions".get_highlight_group() end)
 
 -- dap
-noremap('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
-noremap('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
-noremap('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
-noremap('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
-noremap('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")
+map('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
+map('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
+map('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
+map('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
+map('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")
 
 -- Spectre
-noremap('n', '<leader>S', require('spectre').open)
-noremap('n', '<leader>fw', function() require('spectre').open_visual({select_word=true}) end)
+map('n', '<leader>S', require('spectre').open)
+map('n', '<leader>fw', function() require('spectre').open_visual({select_word=true}) end)
 
 -- Harpoon
-noremap('n', '<Leader>fm', require("harpoon.ui").toggle_quick_menu)
+map('n', '<Leader>fm', require("harpoon.ui").toggle_quick_menu)
+map('n', '<Leader>ma', require("harpoon.mark").add_file)
 
 return M

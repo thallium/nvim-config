@@ -1,5 +1,5 @@
 local nvim_lsp = require('lspconfig')
-local noremap = require('key_maps').noremap
+local map = require('key_maps').map
 
 -- update diagnostics in insert mode
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -10,10 +10,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 local custom_lsp_attach = function(client, bufnr)
-    -- See `:help nvim_buf_set_keymap()` for more information
-
     local function buf_set_keymap(mode, lhs, rhs)
-        noremap(mode, lhs, rhs, { buffer = bufnr, slient = true })
+        map(mode, lhs, rhs, { buffer = bufnr, silent = true })
     end
 
     -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
