@@ -242,14 +242,7 @@ return require('packer').startup(function(use)
     'windwp/nvim-projectconfig',
     config = function()
       require('nvim-projectconfig').setup({
-        project_config = {
-          {
-            path = "/Users/gengchentuo/openj9%-openjdk%-jdk19/.*",
-            config = function()
-              vim.opt.expandtab=false       -- expand tabs to spaces
-            end
-          }
-        }
+        project_config = require'custom'.project_config
       })
     end
   }

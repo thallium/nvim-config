@@ -20,6 +20,12 @@ map('n', '<A-j>', '<C-w>j')
 map('n', '<A-k>', '<C-w>k')
 map('n', '<A-l>', '<C-w>l')
 
+-- Paste without overiding your register
+map('x', '<leader>p', '"_dP')
+
+-- Yank to system clipboard
+map({'n', 'v'}, '<leader>y', '"+y')
+
 -- nnn
 map('n', '<Leader>n', '<cmd>NnnPicker<CR>')
 
