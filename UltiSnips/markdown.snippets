@@ -77,8 +77,8 @@ snippet more "hugo more"
 endsnippet
 
 snippet collapse "collapsible text" 
-{{% collapse $1 %}}
+{{< code language="${1:cpp}" title="${2:代码}" isCollapsed="true" >}}
 $0
-{{% /collapse %}}
+{{< /code >}}
 endsnippet
 

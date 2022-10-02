@@ -220,12 +220,10 @@ int main() {
 endsnippet
 
 snippet temp "regular cp template" 
-/* Author: Thallium54 {{{
- * Blog: https://blog.tgc54.com/ }}}*/
 #include <bits/stdc++.h>
 using namespace std;
 #define all(x) begin(x),end(x) //{{{
-#ifndef LOCAL // https://github.com/p-ranav/pprint
+#ifndef LOCAL // https://tgc54.com/posts/debug_output_header/
 #define de(...)
 #define de2(...)
 #endif
@@ -238,7 +236,7 @@ void test_case() {
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int tt=1;
+    int tt = 1;
     cin >> tt;
     while (tt--) {
         test_case();
@@ -247,10 +245,6 @@ int main() {
 endsnippet
 
 snippet ntemp "regular codeforces template for c++20" b
-/* Author: Thallium54 {{{
- * Blog: https://blog.tgc-thallium.com/
- * Code library: https://github.com/thallium/acm-algorithm-template
- * }}}*/
 #include <bits/stdc++.h>
 using namespace std;
 #ifndef LOCAL // https://github.com/p-ranav/pprint //{{{
@@ -278,12 +272,10 @@ int main() {
 endsnippet
 
 snippet mini "minimal template" 
-/* Author: Thallium54 {{{
- * Blog: https://blog.tgc54.com/ }}}*/
 #include <bits/stdc++.h>
 using namespace std;
 #define all(x) begin(x),end(x) //{{{
-#ifndef LOCAL // https://github.com/p-ranav/pprint
+#ifndef LOCAL // https://tgc54.com/posts/debug_output_header/
 #define de(...)
 #define de2(...)
 #endif
@@ -451,5 +443,27 @@ namespace fastio {
 }  // namespace fastio
 using fastio::re;
 using fastio::wr;
+endsnippet
+
+snippet monoid "monoid for segment tree" 
+struct OP {
+    using S = ;
+    using F = ;
+    static S e() {
+
+    }
+    static S op(const S& x, const S& y) {
+
+    }
+    static F id() {
+
+    }
+    static S mapping(const F& f, const S& x) {
+
+    }
+    static auto composition(F& f, F& g) -> F {
+
+    }
+};
 endsnippet
 
