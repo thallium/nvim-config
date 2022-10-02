@@ -34,7 +34,7 @@ M.compileAndRun = function (toTest)
     termexec("cd " .. dir, 1)
     if ft == 'cpp' or ft == 'c' or ft == 'cc' then
         if toTest then
-            termexec(fmt('ccomp %s && cp_test %s', fnWOEx, fnWOEx), 1, true)
+            termexec(fmt('ccomp %s && cp_test %s', fnWOEx, fnWOEx), 1, false)
         else
             termexec(fmt('ccomp %s && ./%s', fnWOEx, fnWOEx), 1, false)
         end
