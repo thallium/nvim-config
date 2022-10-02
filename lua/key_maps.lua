@@ -81,7 +81,6 @@ map('n', '<Leader>g', function() lazygit:toggle() end)
 -- compile/run/test
 map('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
 map('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
-map('n', '<Leader>p', function() require"my_functions".get_highlight_group() end)
 
 -- dap
 map('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
