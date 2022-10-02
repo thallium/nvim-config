@@ -60,7 +60,7 @@ map('n', '<C-p>', require"telescope.builtin".find_files)
 map('n', 'gd', require"telescope.builtin".lsp_definitions)
 map('n', 'gi', require"telescope.builtin".lsp_implementations)
 map('n', 'gr', require"telescope.builtin".lsp_references)
-map('n', 'gd', require"telescope.builtin".buffers)
+map('n', 'gb', require"telescope.builtin".buffers)
 map('n', '<Leader>s', require'telescope'.extensions.aerial.aerial)
 map('n', '<Leader>E', require"my_telescope".diagnostics)
 
