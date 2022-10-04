@@ -49,8 +49,13 @@ map('n', '<C-w>]', '<cmd>vertical resize +3<CR>')
 -- Ctrl-a to copy all
 map('n',  '<C-A>', '<cmd>%y+<CR>')
 
--- correct spelling on the fly
-map('i', '<C-l>', '<c-g>u<Esc>[s1z=`]a<c-g>u')
+map('i', '<C-l>', function()
+    if vim.o.spell then -- correct spell error if spell check is on
+        vim.api.nvim_input('<c-g>u<Esc>[s1z=`]a<c-g>u')
+    else -- otherwise do noh
+        vim.cmd('noh')
+    end
+end, { silent = true })
 
 -- telescope
 map('n', '<Leader>ff', require"telescope.builtin".find_files)
