@@ -1,4 +1,5 @@
 local M = {}
+local ls = require('luasnip')
 
 M.map = vim.keymap.set
 
@@ -101,5 +102,12 @@ map('n', '<leader>fw', function() require('spectre').open_visual({select_word=tr
 -- Harpoon
 map('n', '<Leader>fm', require("harpoon.ui").toggle_quick_menu)
 map('n', '<Leader>ma', require("harpoon.mark").add_file)
+
+-- LuaSnip
+map('i', '<c-j>', function()
+    if ls.expand_or_jumpable() then
+        ls.expand_or_jump()
+    end
+end)
 
 return M

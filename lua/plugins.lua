@@ -109,8 +109,11 @@ return require('packer').startup(function(use)
     end
   }
   use {
-      'SirVer/ultisnips',
-      config = function() vim.g.UltiSnipsExpandTrigger="<tab>" end
+      "L3MON4D3/LuaSnip",
+      tag = "v1.*",
+      config = function()
+          require'snippets'
+      end
   }
   use {
       'norcalli/nvim-colorizer.lua',
@@ -150,14 +153,14 @@ return require('packer').startup(function(use)
     -- nvim-cmp{{{
     use {
         'hrsh7th/nvim-cmp',
-        config = function() require'completion' end
+        config = function() require'nvim-cmp-config' end
     }
     use {
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-buffer',
-        'quangnguyen30192/cmp-nvim-ultisnips',
         'hrsh7th/cmp-omni',
-        'hrsh7th/cmp-path'
+        'hrsh7th/cmp-path',
+        'saadparwaiz1/cmp_luasnip'
     }
     --}}}
   -- Language {{{
