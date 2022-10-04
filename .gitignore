@@ -2,3 +2,4 @@ plugin/packer_compiled.lua
 spell/*
 spell/
 lua/custom.lua
+lua/snippets.lua
