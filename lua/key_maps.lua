@@ -109,5 +109,8 @@ map('i', '<c-j>', function()
         ls.expand_or_jump()
     end
 end)
+map('n', '<Leader><Leader>s', function()
+    require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
+end)
 
 return M

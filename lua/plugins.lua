@@ -112,7 +112,7 @@ return require('packer').startup(function(use)
       "L3MON4D3/LuaSnip",
       tag = "v1.*",
       config = function()
-          require'snippets'
+        require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
       end
   }
   use {
