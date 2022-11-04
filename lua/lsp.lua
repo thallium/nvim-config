@@ -27,7 +27,9 @@ local custom_lsp_attach = function(client, bufnr)
     buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
     buf_set_keymap('n', '<Leader>e', vim.diagnostic.open_float)
     buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
-    buf_set_keymap('n', '<Leader>F', vim.lsp.buf.formatting)
+    buf_set_keymap('n', '<Leader>F', function ()
+        vim.lsp.buf.format({ async = true })
+    end)
 
     -- For plugins with an `on_attach` callback, call them here. For example:
     -- require'completion'.on_attach()
@@ -39,21 +41,10 @@ local custom_lsp_attach = function(client, bufnr)
     })
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
-
 local servers = require'custom'.lsp_servers
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup{
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
         on_attach = custom_lsp_attach,
     }
 end

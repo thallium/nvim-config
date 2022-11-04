@@ -48,7 +48,8 @@ map('n', '<C-w>[', '<cmd>vertical resize -3<CR>')
 map('n', '<C-w>]', '<cmd>vertical resize +3<CR>')
 
 -- Ctrl-a to copy all
-map('n',  '<C-A>', '<cmd>%y+<CR>')
+-- map('n',  '<C-A>', '<cmd>%y+<CR>')
+map('n',  '<C-A>', require('my_functions').expand_cpp)
 
 map('i', '<C-l>', function()
     if vim.o.spell then -- correct spell error if spell check is on
@@ -68,7 +69,7 @@ map('n', 'gi', require"telescope.builtin".lsp_implementations)
 map('n', 'gr', require"telescope.builtin".lsp_references)
 map('n', 'gb', require"telescope.builtin".buffers)
 map('n', '<Leader>s', require'telescope'.extensions.aerial.aerial)
-map('n', '<Leader>E', require"my_telescope".diagnostics)
+map('n', '<Leader>e', require"my_telescope".diagnostics)
 
 -- termtogle
 local Terminal  = require('toggleterm.terminal').Terminal
@@ -92,7 +93,6 @@ map('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
 map('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")
 map('n', '<leader>ds', "<cmd>lua require'dap'.repl.open()<cr>")
 map('n', '<C-c>', "<cmd>lua require'dap'.continue()<cr>")
-map('n', '<C-n>', "<cmd>lua require'dap'.step_over()<cr>")
 map('n', '<C-s>', "<cmd>lua require'dap'.step_into()<cr>")
 
 -- Spectre
@@ -111,6 +111,20 @@ map('i', '<c-j>', function()
 end)
 map('n', '<Leader><Leader>s', function()
     require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/snippets"})
+end)
+map({ 'i', 's' }, '<c-n>', function ()
+    if ls.choice_active() then
+        ls.change_choice(1)
+    else
+        vim.api.nvim_input('<c-n>')
+    end
+end)
+map({ 'i', 's' }, '<c-p>', function ()
+    if ls.choice_active() then
+        ls.change_choice(-1)
+    else
+        vim.api.nvim_input('<c-p>')
+    end
 end)
 
 return M

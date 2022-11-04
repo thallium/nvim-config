@@ -45,4 +45,16 @@ M.compileAndRun = function (toTest)
     end
 end
 
+function M.expand_cpp()
+    vim.cmd('write')
+    local dir = vim.fn.expand('%:p:h')
+    local fnWEx = vim.fn.expand('%') -- filename with extension
+    termexec("cd " .. dir, 10, true, false)
+    local ft = vim.o.filetype
+    if ft == 'cpp' or ft == 'c' or ft == 'cc' then
+        termexec('expand_cpp ' .. fnWEx, 10, true, false)
+    end
+    print("expanded and copied")
+end
+
 return M
