@@ -16,7 +16,12 @@ return require('packer').startup(function(use)
   use {
     'folke/tokyonight.nvim',
     config = function()
-        vim.g.tokyonight_style = "storm"
+        require'tokyonight'.setup({
+            style = 'storm',
+            styles = {
+                comments = { italic = false },
+            },
+        })
         if Get_color_mode() == 'dark' then
           vim.o.background='dark'
           vim.cmd[[colorscheme tokyonight]]
@@ -44,6 +49,12 @@ return require('packer').startup(function(use)
   use {
     'kyazdani42/nvim-web-devicons',
     config = function() require 'icons' end
+  }
+  use {
+    'cormacrelf/dark-notify',
+    config = function ()
+        require('dark_notify').run()
+    end
   }
   --}}}
 
