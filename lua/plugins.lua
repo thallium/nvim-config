@@ -20,6 +20,7 @@ return require('packer').startup(function(use)
             style = 'storm',
             styles = {
                 comments = { italic = false },
+                keywords = { italic = false },
             },
         })
         if Get_color_mode() == 'dark' then
@@ -109,7 +110,12 @@ return require('packer').startup(function(use)
       config = function () require'toggleterm_config' end
   }
 
-  use { 'tyru/caw.vim' }
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+  }
   use {
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
