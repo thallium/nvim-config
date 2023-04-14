@@ -33,8 +33,8 @@ local layout_bottom = {
 function M.find_acm_template()
     require('telescope.builtin').find_files {
         prompt_title = "Templates",
-        search_dirs = { "~/github/acm-algorithm-template/src" },
-        cwd = "~/github/acm-algorithm-template/src"
+        search_dirs = { "~/github/algo/master/src" },
+        cwd = "~/github/algo/master/src"
     }
 end
 
