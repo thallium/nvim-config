@@ -165,6 +165,12 @@ return require('packer').startup(function(use)
       'nvim-lua/plenary.nvim',
     },
   }
+  use {
+      'f-person/git-blame.nvim'
+  }
+  use {
+      'RRethy/vim-illuminate'
+  }
   --}}}
 
     -- nvim-cmp{{{
