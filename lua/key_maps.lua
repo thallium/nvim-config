@@ -72,7 +72,7 @@ map('n', 'gb', require"telescope.builtin".buffers)
 map('n', '<Leader>s', require'telescope'.extensions.aerial.aerial)
 map('n', '<Leader>e', require"my_telescope".diagnostics)
 
--- termtogle
+-- toggleterm
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({
     cmd = "lazygit",
