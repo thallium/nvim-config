@@ -74,7 +74,7 @@ using ll = long long;
 
 void test_case() {
 	$0
-};
+}
 
 int main() {
     ios::sync_with_stdio(false);
@@ -113,5 +113,25 @@ int gen(int l, int r) {
     assert(l <= r);
     return rng() % (r - l + 1) + l;
 }
-    ]])
+    ]]),
+    parse_snippet('uf', [[
+struct UF {
+    vector<int> fa, sz;
+    UF(int n) : fa(n), sz(n, 1) { iota(fa.begin(), fa.end(), 0); }
+
+    int find(int x) { return fa[x] == x ? x : fa[x] = find(fa[x]); }
+
+    bool same(int x, int y) { return find(x) == find(y); }
+
+    bool join(int x, int y) {
+        x = find(x), y = find(y);
+        if (x == y) return false;
+        if (sz[x] > sz[y]) swap(x, y);
+        fa[x] = y;
+        sz[y] += sz[x];
+        return true;
+    }
+};
+    ]]),
+    parse_snippet('minheap', 'template<typename T> using min_heap = priority_queue<T, vector<T>, greater<>>;'),
 }
