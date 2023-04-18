@@ -173,9 +173,19 @@ return require('packer').startup(function(use)
   }
   use {
       'RRethy/vim-illuminate', -- highlight word under cursor
-      filetypes_denylist = {
-          'toggleterm',
-      }
+      config = function()
+          require('illuminate').configure({
+            -- providers: provider used to get references in the buffer, ordered by priority
+            providers = {
+                'treesitter',
+                'lsp',
+                'regex',
+            },
+            filetypes_denylist = {
+                'toggleterm',
+            }
+        })
+      end
   }
   --}}}
 
