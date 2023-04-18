@@ -82,8 +82,6 @@ local lazygit = Terminal:new({
         border = 'double'
     }
 })
-map({'n', 't'}, '<A-p>', '<cmd>ToggleTerm<cr>')
-map('i', '<A-p>', '<esc><cmd>ToggleTerm<cr>')
 map('n', '<Leader>g', function() lazygit:toggle() end)
 
 -- compile/run/test
