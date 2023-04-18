@@ -9,62 +9,75 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 
-local custom_lsp_attach = function(client, bufnr)
-    local function buf_set_keymap(mode, lhs, rhs)
-        map(mode, lhs, rhs, { buffer = bufnr, silent = true })
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function (ev)
+        local function buf_set_keymap(mode, lhs, rhs)
+            map(mode, lhs, rhs, { buffer = ev.buf, silent = true })
+        end
+
+        buf_set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action)
+        buf_set_keymap('n', 'K', vim.lsp.buf.hover)
+        buf_set_keymap('n', '<Leader>cn', vim.lsp.buf.rename)
+        buf_set_keymap('n', '[e', vim.diagnostic.goto_prev)
+        buf_set_keymap('n', ']e', vim.diagnostic.goto_next)
+        buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
+        buf_set_keymap('n', '<Leader>e', vim.diagnostic.open_float)
+        buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
+        buf_set_keymap('n', '<Leader>F', function ()
+            vim.lsp.buf.format({ async = true })
+        end)
+
+        -- For plugins with an `on_attach` callback, call them here. For example:
+        -- require'completion'.on_attach()
+        require'lsp_signature'.on_attach({
+            bind = true,
+            -- floating_window = false,
+            -- hint_enable = true,
+            hint_prefix = '',
+        })
     end
+})
 
-    -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-    -- buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
-    -- buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-    -- buf_set_keymap('n', 'gi',  '<cmd>lua vim.lsp.buf.implementation()<CR>')
+local servers = {
+    {
+        name = "clangd",
+        on_attach = function (client, bufnr)
+            client.server_capabilities.semanticTokensProvider = nil
+        end
+    },
+    { name = "gopls", },
+    { name = "pyright", },
+    { name = "texlab", },
+    { name = "rust_analyzer" },
+    {
+        name = "lua_ls",
+        settings = {
+            Lua = {
+                runtime = {
+                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                    version = 'LuaJIT',
+                },
+                diagnostics = {
+                    -- Get the language server to recognize the `vim` global
+                    globals = {'vim'},
+                },
+                workspace = {
+                    -- Make the server aware of Neovim runtime files
+                    library = vim.api.nvim_get_runtime_file("", true),
+                },
+                -- Do not send telemetry data containing a randomized but unique identifier
+                telemetry = {
+                    enable = false,
+                },
+            },
+        },
+    }
+}
 
-    buf_set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action)
-    buf_set_keymap('n', 'K', vim.lsp.buf.hover)
-    buf_set_keymap('n', '<Leader>cn', vim.lsp.buf.rename)
-    buf_set_keymap('n', '[e', vim.diagnostic.goto_prev)
-    buf_set_keymap('n', ']e', vim.diagnostic.goto_next)
-    buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
-    buf_set_keymap('n', '<Leader>e', vim.diagnostic.open_float)
-    buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
-    buf_set_keymap('n', '<Leader>F', function ()
-        vim.lsp.buf.format({ async = true })
-    end)
-
-    -- For plugins with an `on_attach` callback, call them here. For example:
-    -- require'completion'.on_attach()
-    require'lsp_signature'.on_attach({
-        bind = true,
-        -- floating_window = false,
-        -- hint_enable = true,
-        hint_prefix = '',
-    })
-end
-
-local servers = require'custom'.lsp_servers
-
-for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup{
-        on_attach = custom_lsp_attach,
+for _, config in ipairs(servers) do
+    nvim_lsp[config.name].setup{
+        settings = config.settings,
+        on_attach = config.on_attach,
     }
 end
-
-require'custom'.custom_lsp_setup()
-
--- require'lspconfig'.jdtls.setup{
---     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
---     on_attach = custom_lsp_attach,
---     -- root_dir = vim.fn.getcwd()
---     -- {
---     --     {
---     --       '.project',
---     --       'build.xml', -- Ant
---     --       'pom.xml', -- Maven
---     --       'settings.gradle', -- Gradle
---     --       'settings.gradle.kts', -- Gradle
---     --     },
---     --     -- Multi-module projects
---     --     { 'build.gradle', 'build.gradle.kts' },
---     --   } or 
--- }
-
