@@ -208,6 +208,9 @@ return require('packer').startup(function(use)
     cmd = 'MarkdownPreview',
     setup = function () vim.g.mkdp_auto_close = false end
   }
+  use {
+      'imsnif/kdl.vim'
+  }
   --}}}
 
   -- LSP/treesitter {{{
