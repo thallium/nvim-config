@@ -172,7 +172,10 @@ return require('packer').startup(function(use)
       'f-person/git-blame.nvim'
   }
   use {
-      'RRethy/vim-illuminate'
+      'RRethy/vim-illuminate', -- highlight word under cursor
+      filetypes_denylist = {
+          'toggleterm',
+      }
   }
   --}}}
 
