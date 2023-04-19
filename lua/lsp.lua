@@ -11,7 +11,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-    callback = function (ev)
+    callback = function(ev)
         local function buf_set_keymap(mode, lhs, rhs)
             map(mode, lhs, rhs, { buffer = ev.buf, silent = true })
         end
@@ -24,13 +24,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
         buf_set_keymap('n', '<C-k>', vim.lsp.buf.signature_help)
         buf_set_keymap('n', '<Leader>e', vim.diagnostic.open_float)
         buf_set_keymap('n', '<space>q', vim.diagnostic.setloclist)
-        buf_set_keymap('n', '<Leader>F', function ()
+        buf_set_keymap('n', '<Leader>F', function()
             vim.lsp.buf.format({ async = true })
         end)
 
         -- For plugins with an `on_attach` callback, call them here. For example:
         -- require'completion'.on_attach()
-        require'lsp_signature'.on_attach({
+        require 'lsp_signature'.on_attach({
             bind = true,
             -- floating_window = false,
             -- hint_enable = true,
@@ -42,16 +42,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local servers = {
     {
         name = "clangd",
-        on_attach = function (client, bufnr)
+        on_attach = function(client, bufnr)
             client.server_capabilities.semanticTokensProvider = nil
         end
     },
     { name = "gopls", },
     { name = "pyright", },
     { name = "texlab", },
-    { name = "rust_analyzer" },
+    {
+        name = "rust_analyzer",
+        cmd = "rust-analyzer"
+    },
     {
         name = "lua_ls",
+        cmd = "lua-language-server",
         settings = {
             Lua = {
                 runtime = {
@@ -60,7 +64,7 @@ local servers = {
                 },
                 diagnostics = {
                     -- Get the language server to recognize the `vim` global
-                    globals = {'vim'},
+                    globals = { 'vim' },
                 },
                 workspace = {
                     -- Make the server aware of Neovim runtime files
@@ -76,8 +80,10 @@ local servers = {
 }
 
 for _, config in ipairs(servers) do
-    nvim_lsp[config.name].setup{
-        settings = config.settings,
-        on_attach = config.on_attach,
-    }
+    if vim.fn.executable(config.cmd or config.name) == 1 then
+        nvim_lsp[config.name].setup {
+            settings = config.settings,
+            on_attach = config.on_attach,
+        }
+    end
 end
