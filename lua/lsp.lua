@@ -40,22 +40,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 local servers = {
-    {
-        name = "clangd",
-        on_attach = function(client, bufnr)
-            client.server_capabilities.semanticTokensProvider = nil
-        end
+    clangd = {
+        -- on_attach = function(client, bufnr)
+        --     client.server_capabilities.semanticTokensProvider = nil
+        -- end
     },
-    { name = "gopls", },
-    { name = "pyright", },
-    { name = "texlab", },
-    {
-        name = "rust_analyzer",
-        cmd = "rust-analyzer"
+    gopls = {},
+    pyright = {},
+    texlab = {},
+    rust_analyzer = {
+        exec = "rust-analyzer"
     },
-    {
-        name = "lua_ls",
-        cmd = "lua-language-server",
+    lua_ls = {
+        exec = "lua-language-server",
         settings = {
             Lua = {
                 runtime = {
@@ -79,11 +76,21 @@ local servers = {
     }
 }
 
-for _, config in ipairs(servers) do
-    if vim.fn.executable(config.cmd or config.name) == 1 then
-        nvim_lsp[config.name].setup {
-            settings = config.settings,
-            on_attach = config.on_attach,
-        }
+if require('utils').has_custom() then
+    local cwd = vim.fn.getcwd()
+    for _, config in pairs(require 'custom'.project_config) do
+        if cwd:match(config.path) then
+            for name, lsp_config in pairs(config.lsp_config) do
+                servers[name] = vim.tbl_extend("force", servers[name], lsp_config)
+            end
+        end
+    end
+end
+
+for name, config in pairs(servers) do
+    if vim.fn.executable(config.exec or name) == 1 then
+        if not config.disabled then
+            nvim_lsp[name].setup(config)
+        end
     end
 end
