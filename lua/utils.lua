@@ -53,4 +53,8 @@ function M.expand_cpp()
     end
 end
 
+function M.has_custom()
+    return vim.fn.filereadable(vim.fn.expand('~/.config/nvim/lua/custom.lua')) ~= 0
+end
+
 return M

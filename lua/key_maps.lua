@@ -49,7 +49,7 @@ map('n', '<C-w>]', '<cmd>vertical resize +3<CR>')
 
 -- Ctrl-a to copy all
 -- map('n',  '<C-A>', '<cmd>%y+<CR>')
-map('n',  '<C-A>', require('my_functions').expand_cpp)
+map('n',  '<C-A>', require('utils').expand_cpp)
 
 map('i', '<C-l>', function()
     if vim.o.spell then -- correct spell error if spell check is on
@@ -85,8 +85,8 @@ local lazygit = Terminal:new({
 map('n', '<Leader>g', function() lazygit:toggle() end)
 
 -- compile/run/test
-map('n', '<Leader>r', function() require"my_functions".compileAndRun(false) end)
-map('n', '<Leader>t', function() require"my_functions".compileAndRun(true) end)
+map('n', '<Leader>r', function() require"utils".compileAndRun(false) end)
+map('n', '<Leader>t', function() require"utils".compileAndRun(true) end)
 
 -- dap
 map('n', '<leader>db', "<cmd>lua require'dap'.toggle_breakpoint()<cr>")

@@ -286,7 +286,7 @@ return require('packer').startup(function(use)
   use {
     'windwp/nvim-projectconfig',
     config = function()
-        if vim.fn.filereadable(vim.fn.expand('~/.config/nvim/lua/custom.lua')) ~= 0 then
+        if require('utils').has_custom() then
             require('nvim-projectconfig').setup({
                 project_config = require'custom'.project_config
             })
