@@ -64,12 +64,9 @@ return require('packer').startup(function(use)
     'nvim-lua/popup.nvim',
   }
   use {
-    'mcchrish/nnn.vim',
-    cmd = 'NnnPicker',
-    config=function()
-      vim.g['nnn#layout']={left='~35%'}
-      vim.g['nnn#command']='nnn -e'
-    end
+    "luukvbaal/nnn.nvim",
+    config = function() require("nnn").setup() end,
+    cmd = {'NnnExplorer', 'NnnPicker'},
   }
   use {
     'nvim-telescope/telescope.nvim',
