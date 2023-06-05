@@ -169,19 +169,10 @@ return require('packer').startup(function(use)
       'f-person/git-blame.nvim'
   }
   use {
-      'RRethy/vim-illuminate', -- highlight word under cursor
-      config = function()
-          require('illuminate').configure({
-            -- providers: provider used to get references in the buffer, ordered by priority
-            providers = {
-                'treesitter',
-                'lsp',
-                'regex',
-            },
-            filetypes_denylist = {
-                'toggleterm',
-            }
-        })
+      'echasnovski/mini.nvim',
+      branch = 'stable',
+      config = function ()
+        require('mini.cursorword').setup()
       end
   }
   use {'kevinhwang91/nvim-bqf'}
