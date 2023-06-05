@@ -184,6 +184,7 @@ return require('packer').startup(function(use)
         })
       end
   }
+  use {'kevinhwang91/nvim-bqf'}
   --}}}
 
     -- nvim-cmp{{{
