@@ -19,9 +19,9 @@ clickable = true,
 icons = {
     filetype = { enabled = true },
     modified = {button = '●'},
-    button = '',
+    button = '×',
     pinned = {
-        button = '車', filename = true, separator = {right = ''}
+        button = '', filename = true, separator = {right = ''}
     },
     separator = {left = '▎', right = ''},
 },

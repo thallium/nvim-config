@@ -49,7 +49,12 @@ function M.expand_cpp()
     vim.cmd('write')
     local ft = vim.o.filetype
     if ft == 'cpp' or ft == 'c' or ft == 'cc' then
-        vim.cmd('!expand_cpp %')
+        local version = 17
+        local dir = vim.fn.expand('%:p:h') -- filename with extension
+        if dir:match('.*Codeforces.*') then
+            version = 20
+        end
+        vim.cmd('!expand_cpp % ' .. version)
     end
 end
 

@@ -76,6 +76,6 @@ vim.o.showmode = false         -- Don't show mode on bottom
 vim.o.title = true
 vim.o.titlelen = 95 -- Title length.
 vim.o.titlestring = '%t'
-vim.opt.listchars = {tab='┆ ',nbsp='+',trail='·',extends='→',precedes='←',eol=''}
+vim.opt.listchars = {tab='┆ ',nbsp='+',trail='·',extends='→',precedes='←',eol='󰌑'}
 vim.o.signcolumn = 'yes:1'
 -- }}}
