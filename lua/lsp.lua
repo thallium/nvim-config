@@ -41,6 +41,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local servers = {
     clangd = {
+        cmd = {
+            "clangd",
+            "--offset-encoding=utf-16",
+        }
         -- on_attach = function(client, bufnr)
         --     client.server_capabilities.semanticTokensProvider = nil
         -- end

@@ -3,7 +3,7 @@ local fmt = string.format
 local tt = require'toggleterm'
 
 local function termexec(cmd, num, go_back, open)
-    tt.exec(cmd, num, nil, nil, nil, go_back, open)
+    tt.exec(cmd, num, nil, nil, nil, nil, go_back, open)
 end
 
 function M.compile(toDebug)
