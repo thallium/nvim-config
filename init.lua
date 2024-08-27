@@ -1,5 +1,4 @@
-require('impatient')
 require('general')
-require('plugins')
+require("config.lazy")
 require('events')
 require('key_maps')

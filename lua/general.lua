@@ -23,7 +23,7 @@ vim.g.maplocalleader = ','
 vim.o.secure = true
 
 -- General settings{{{
-vim.o.autochdir = true
+vim.o.autochdir = false
 vim.o.cursorline = true
 vim.o.foldmethod = 'marker'
 vim.o.mouse = 'a'
@@ -41,7 +41,7 @@ vim.opt.shortmess:append('c')
 -- }}}
 -- Tabs and Indents {{{
 vim.o.cindent = true
-vim.o.expandtab = true       -- expand tabs to spaces
+vim.o.expandtab = false       -- expand tabs to spaces
 vim.o.shiftround = true      -- Round indent to multiple of 'shiftwidth'
 vim.o.shiftwidth = 4    -- Number of spaces to use in auto(indent)
 vim.o.smartindent = true     -- Smart autoindenting on new lines
