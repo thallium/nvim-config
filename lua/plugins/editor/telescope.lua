@@ -1,9 +1,32 @@
 return {
     'nvim-telescope/telescope.nvim',
-    dependencies = {'plenary.nvim'},
-    config = function(_, opts)
+    dependencies = {'plenary.nvim', 'telescope-fzy-native.nvim'},
+    config = function()
+        require('telescope').setup({
+            extensions = {
+                aerial = {
+                    -- Set the width of the first two columns (the second
+                    -- is relevant only when show_columns is set to 'both')
+                    col1_width = 4,
+                    -- How to format the symbols
+                    -- format_symbol = function(symbol_path, filetype)
+                    --     if filetype == "json" or filetype == "yaml" then
+                    --         return table.concat(symbol_path, ".")
+                    --     else
+                    --         return symbol_path[#symbol_path]
+                    --     end
+                    -- end,
+                    -- Available modes: symbols, lines, both
+                    show_columns = "symbols",
+                },
+                fzy_native = {
+                    override_generic_sorter = false,
+                    override_file_sorter = true,
+                }
+            }
+        })
         require("telescope").load_extension("aerial")
-        require('telescope').setup(opts)
+        require('telescope').load_extension('fzy_native')
     end,
     keys = function()
         local layout_bottom = {
@@ -33,17 +56,16 @@ return {
             require"telescope.builtin".diagnostics(layout_bottom)
         end
         return {
-            {'<Leader>ff', require"telescope.builtin".find_files},
-            {'<Leader>fb', require"telescope.builtin".buffers},
+            {'<Leader>fs', require"telescope.builtin".find_files},
+            -- {'<Leader>fb', require"telescope.builtin".buffers},
             {'<C-p>', require"telescope.builtin".find_files},
-            {'gd', require"telescope.builtin".lsp_definitions},
-            {'gi', require"telescope.builtin".lsp_implementations},
-            {'gr', require"telescope.builtin".lsp_references},
-            {'gb', require"telescope.builtin".buffers},
+            -- {'gd', require"telescope.builtin".lsp_definitions},
+            -- {'gi', require"telescope.builtin".lsp_implementations},
+            -- {'gr', require"telescope.builtin".lsp_references},
             {'<Leader>ft', find_acm_template},
             {'<Leader>fd', find_dot_files},
-            {'<Leader>s', require'telescope'.extensions.aerial.aerial},
-            {'<Leader>e', diagnostics}
+            -- {'<Leader>s', require'telescope'.extensions.aerial.aerial},
+            -- {'<Leader>fe', diagnostics}
         }
     end
 }

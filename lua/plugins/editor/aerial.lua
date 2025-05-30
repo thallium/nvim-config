@@ -1,6 +1,19 @@
 return {
   'stevearc/aerial.nvim',
   opts = {
+    filter_kind = {
+      "Class",
+      "Constructor",
+      "Enum",
+      "Function",
+      "Interface",
+      "Module",
+      "Method",
+      "Struct",
+      "Key",
+      "Package"
+    },
+	disable_max_lines = 20000,
     on_attach = function(bufnr)
         -- Toggle the aerial window with <leader>a
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})

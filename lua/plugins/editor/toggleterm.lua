@@ -1,6 +1,7 @@
 return {
     "akinsho/toggleterm.nvim",
-    version = '*',
+	branch = 'main',
+    -- version = '*',
     opts = {
         size = function(term)
             if term.direction == "horizontal" then
@@ -26,8 +27,8 @@ return {
         -- the 'curved' border is a custom border type
         -- not natively supported but implemented in this plugin.
             border = 'double',
-            width = 100,
-            height = 50,
+            -- width = 100,
+            -- height = 50,
             winblend = 0,
             highlights = {
                 border = "Normal",
@@ -36,17 +37,23 @@ return {
         }
     },
     keys = function()
-        local Terminal  = require('toggleterm.terminal').Terminal
-        local lazygit = Terminal:new({
-            cmd = "lazygit",
-            hidden = true,
-            direction = 'float',
-            float_opts = {
-                border = 'double'
-            }
-        })
         return {
-            {'<Leader>g', function() lazygit:toggle() end }
+            {'<Leader>g', function()
+				local Terminal  = require('toggleterm.terminal').Terminal
+				local lazygit = Terminal:new({
+					cmd = "lazygit",
+					dir = "%:p:h",
+					hidden = true,
+					direction = 'float',
+					float_opts = {
+						border = 'double',
+						-- width = 150,
+						-- height = 50,
+					},
+					-- close_on_exit = true,
+				})
+				lazygit:toggle()
+			end }
         }
     end
 }
