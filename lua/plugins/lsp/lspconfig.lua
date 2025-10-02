@@ -32,15 +32,6 @@ return {
     end,
 
     config = function(_, opts)
-      require('lspconfig.configs').plx = {
-        default_config = {
-          cmd = {"node", "/Users/gengchentuo/plx-language-server/server/dist/server.js", "--stdio"},
-          filetypes = {'plx'},
-          root_dir = vim.loop.cwd(),
-          settings = {},
-        };
-      }
-
       local servers = opts.servers
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local capabilities = vim.tbl_deep_extend(
@@ -65,7 +56,8 @@ return {
             return
           end
         end
-        require("lspconfig")[server].setup(server_opts)
+        vim.lsp.config(server, server_opts)
+        vim.lsp.enable(server)
       end
 
       vim.api.nvim_create_autocmd('LspAttach', {
