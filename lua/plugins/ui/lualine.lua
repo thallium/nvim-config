@@ -8,6 +8,7 @@ end
 
 return {
   'nvim-lualine/lualine.nvim',
+  event = "VeryLazy",
   opts = {
     options = {
       icons_enabled = true,
@@ -16,12 +17,11 @@ return {
       section_separators = '',
       disabled_filetypes = {},
       always_divide_middle = true,
-      globalstatus = true
     },
     sections = {
       lualine_a = {'mode'},
       lualine_b = {
-        'branch', 'diff',
+        'branch',
         { 'diagnostics', sources={ 'nvim_diagnostic', 'coc' } }
       },
       lualine_c = {
