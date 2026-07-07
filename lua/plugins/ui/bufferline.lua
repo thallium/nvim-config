@@ -10,8 +10,8 @@ return {
       { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
       { "<A-,>", "<cmd>BufferLineCyclePrev<cr>", mode = {"n", "i"}, desc = "Prev Buffer" },
       { "<A-.>", "<cmd>BufferLineCycleNext<cr>", mode = {"n", "i"}, desc = "Next Buffer" },
-      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
-      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+      { "<leader>bp", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+      { "<leader>bn", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
     },
     opts = {
       options = {
